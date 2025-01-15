@@ -28,7 +28,7 @@ class StringCalculatorsController < ApplicationController
 	private
 
 	def parse_custom_delimiter(input)
-		match = input.match(%r{//(.+?)\n(.*)})
+		match = input.match(%r{//\[(.*?)\]\n(.*)})
 		if match
       delimiter = match[1]
       numbers = match[2]

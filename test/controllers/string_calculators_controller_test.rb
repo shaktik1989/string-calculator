@@ -48,7 +48,7 @@ class StringCalculatorControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should return sum when delimiter is of multiple length" do
-    get string_calculator_add_url(numbers: "//***\n1***2***3")
+    get string_calculator_add_url(numbers: "//[***]\n1***2***3")
     assert_response :success
     assert_equal "6", response.body
   end
