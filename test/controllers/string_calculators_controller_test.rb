@@ -34,4 +34,16 @@ class StringCalculatorControllerTest < ActionDispatch::IntegrationTest
     assert_response :bad_request
     assert_includes response.body, "Error: Negative numbers not allowed: -2, -4"
   end
+  
+  test "should ignore numbers greater than 1000" do
+    get string_calculator_add_url(numbers: "1,2,3,1001")
+    assert_response :success
+    assert_equal "6", response.body
+  end
+
+  test "should sum numbers when number is 1000" do
+    get string_calculator_add_url(numbers: "1,2,3,1000")
+    assert_response :success
+    assert_equal "1006", response.body
+  end
 end

@@ -13,6 +13,9 @@ class StringCalculatorsController < ApplicationController
 	    unless negatives.empty?
 	      raise StandardError, "Negative numbers not allowed: #{negatives.join(', ')}"
 	    end
+      
+      #ignore number greater than 1000
+	    numbers = numbers.reject{|num| num > 1000}
 
 			sum = numbers.sum
 			render plain: sum
