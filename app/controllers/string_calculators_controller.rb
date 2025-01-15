@@ -9,8 +9,9 @@ class StringCalculatorsController < ApplicationController
 				numbers = params[:numbers].gsub("\n", ",").split(',')
 			end	
 			numbers = numbers.map(&:to_i)
+
 			negatives = numbers.select { |n| n < 0 }
-	    unless negatives.empty?
+	    unless negatives.empty? #raising error for negative numbers
 	      raise StandardError, "Negative numbers not allowed: #{negatives.join(', ')}"
 	    end
       
