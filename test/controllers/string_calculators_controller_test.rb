@@ -28,4 +28,10 @@ class StringCalculatorControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_equal "6", response.body
   end
+
+  test "should return error for negative numbers" do
+    get string_calculator_add_url(numbers: "1,-2,3,-4")
+    assert_response :bad_request
+    assert_includes response.body, "Error: Negative numbers not allowed: -2, -4"
+  end
 end

@@ -1,14 +1,24 @@
 class StringCalculatorsController < ApplicationController
 	def add
-		if params[:numbers].starts_with?("//")
-			parsed_delimiter = parse_custom_delimiter(params[:numbers])
-			delimiter = parsed_delimiter[0]
-			numbers = parsed_delimiter[1].split(delimiter)
-		else
-			numbers = params[:numbers].gsub("\n", ",").split(',')
-		end	
-		sum = numbers.map(&:to_i).sum
-		render plain: sum
+		begin
+			if params[:numbers].starts_with?("//")
+				parsed_delimiter = parse_custom_delimiter(params[:numbers])
+				delimiter = parsed_delimiter[0]
+				numbers = parsed_delimiter[1].split(delimiter)
+			else
+				numbers = params[:numbers].gsub("\n", ",").split(',')
+			end	
+			numbers = numbers.map(&:to_i)
+			negatives = numbers.select { |n| n < 0 }
+	    unless negatives.empty?
+	      raise StandardError, "Negative numbers not allowed: #{negatives.join(', ')}"
+	    end
+
+			sum = numbers.sum
+			render plain: sum
+		rescue StandardError => e
+			render plain: "Error: #{e.message}", status: :bad_request
+		end
 	end
 
 	private
